@@ -39,6 +39,10 @@ jobs:
       - run:
           name: Deploy Over SSH
           command: scp -r ~/laravel/* serveradmin%brooklynrail.org@brooklynrail.org:~/circleci.brooklynrail.org/html/
+      - run:
+          name: Test SSH
+          command: |
+            ssh serveradmin%brooklynrail.org@brooklynrail.org "touch ~/circleci.brooklynrail.org/html/test.txt"
 
 workflows:
   version: 2
