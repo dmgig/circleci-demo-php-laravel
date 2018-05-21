@@ -36,11 +36,10 @@ jobs:
   deploy:
     machine:
       enabled: true
-    working_directory: /tmp/circleci-demo-php-laravel
     steps:
       - run:
           name: LS
-          command: ls $BASH_ENV
+          command: ls ~/circleci-demo-php-laravel/*
 #      - run:
 #          name: Deploy Over SSH
 #          command: scp -r /tmp/circleci-demo-php-laravel/*.php serveradmin%brooklynrail.org@brooklynrail.org:~/domains/circleci.brooklynrail.org/html/
