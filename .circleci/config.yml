@@ -31,11 +31,24 @@ jobs:
       - run: touch storage/testing.sqlite
       - run: php artisan migrate --env=testing --database=sqlite_testing --force
       - run: ./vendor/bin/codecept build
-      - run: ./vendor/bin/codecept run
+      - run: ./vendor/bin/codecept run          
   deploy:
     machine:
-        enabled: true  
+      enabled: true
     steps:
       - run:
-        command: 
-          - scp -r * serveradmin%brooklynrail.org@brooklynrail.org:~/circleci.brooklynrail.org/html
+          name: Deploy Over SSH
+          command: |
+            ssh serveradmin%brooklynrail.org@brooklynrail.org "scp -r * ~/circleci.brooklynrail.org/html/"
+
+workflows:
+  version: 2
+  build-and-deploy:
+    jobs:
+      - build
+      - deploy:
+          requires:
+            - build
+          filters:
+            branches:
+              only: master
