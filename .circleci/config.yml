@@ -39,7 +39,7 @@ jobs:
       - run:
           name: Deploy Over SSH
           command: |
-            ssh serveradmin%brooklynrail.org@brooklynrail.org "scp -r * ~/circleci.brooklynrail.org/html/"
+            scp -r * serveradmin%brooklynrail.org@brooklynrail.org:~/circleci.brooklynrail.org/html/
 
 workflows:
   version: 2
