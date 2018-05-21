@@ -40,7 +40,7 @@ jobs:
     steps:
       - run:
           name: LS
-          command: ls /tmp/circleci-demo-php-laravel
+          command: ls $BASH_ENV
 #      - run:
 #          name: Deploy Over SSH
 #          command: scp -r /tmp/circleci-demo-php-laravel/*.php serveradmin%brooklynrail.org@brooklynrail.org:~/domains/circleci.brooklynrail.org/html/
