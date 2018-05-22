@@ -33,7 +33,7 @@ jobs:
       - run: ./vendor/bin/codecept run 
       - run: pwd
   deploy:
-    docker:
+    machine:
       enabled: true
     steps:
       - run:
