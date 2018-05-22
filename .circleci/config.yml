@@ -6,6 +6,27 @@ jobs:
       - image: circleci/php:7.1-node-browsers
     steps:
       - checkout
+      - run: sudo apt install -y libsqlite3-dev zlib1g-dev
+      - run: sudo docker-php-ext-install zip
+      - run: sudo composer self-update
+      - restore_cache:
+          keys:
+            - composer-v1-{{ checksum "composer.lock" }}
+            - composer-v1-
+      - run: composer install -n --prefer-dist
+      - save_cache:
+          key: composer-v1-{{ checksum "composer.lock" }}
+          paths:
+            - vendor
+      - restore_cache:
+          keys:
+            - node-v1-{{ checksum "package.json" }}
+            - node-v1-
+      - save_cache:
+          key: node-v1-{{ checksum "package.json" }}
+          paths:
+            - node_modules
+      - run: touch storage/testing.sqlite
       - run: pwd
   deploy:
     docker:
