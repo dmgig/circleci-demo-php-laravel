@@ -22,11 +22,15 @@ jobs:
           keys:
             - node-v1-{{ checksum "package.json" }}
             - node-v1-
+      - run: yarn install
       - save_cache:
           key: node-v1-{{ checksum "package.json" }}
           paths:
             - node_modules
       - run: touch storage/testing.sqlite
+      - run: php artisan migrate --env=testing --database=sqlite_testing --force
+      - run: ./vendor/bin/codecept build
+      - run: ./vendor/bin/codecept run 
       - run: pwd
   deploy:
     docker:
