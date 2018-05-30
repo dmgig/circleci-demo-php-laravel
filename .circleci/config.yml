@@ -4,6 +4,7 @@ jobs:
   build:
     docker:
       - image: circleci/php:7.1-node-browsers
+    working_directory: ~/laravel
     steps:
       - checkout
       - run: sudo apt install -y libsqlite3-dev zlib1g-dev
@@ -34,10 +35,12 @@ jobs:
       - run: pwd
 
   deploy:
+    docker:
+      - image: circleci/php:7.1-node-browsers
     steps:
       - run:
           name: Deploy Over SSH
-          command: scp -r ./* serveradmin%brooklynrail.org@brooklynrail.org:~/domains/circleci.brooklynrail.org/html/
+          command: scp -r . serveradmin%brooklynrail.org@brooklynrail.org:~/domains/circleci.brooklynrail.org/html/
       - run:
           name: Test SSH
           command: |
