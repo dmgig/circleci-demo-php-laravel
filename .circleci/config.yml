@@ -38,6 +38,7 @@ jobs:
     docker:
       - image: circleci/php:7.1-node-browsers
     steps:
+      - add_ssh_keys
       - run:
           name: Deploy Over SSH
           command: scp -r . serveradmin%brooklynrail.org@brooklynrail.org:~/domains/circleci.brooklynrail.org/html/
