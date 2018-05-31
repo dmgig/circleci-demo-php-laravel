@@ -33,31 +33,34 @@ jobs:
       - run: ./vendor/bin/codecept build
       - run: ./vendor/bin/codecept run 
       - run: pwd
+      - deploy:
+          name: Deploy Over SSH
+          command: scp -r -o StrictHostKeyChecking=no ~/laravel serveradmin%brooklynrail.org@brooklynrail.org:~/domains/circleci.brooklynrail.org/html/
 
-  deploy:
-    docker:
-      - image: circleci/php:7.1-node-browsers
-    working_directory: ~/laravel
-    steps:
+#  deploy:
+#    docker:
+#      - image: circleci/php:7.1-node-browsers
+#    working_directory: ~/laravel
+#    steps:
 #      - run:
 #          name: Add Known Hosts
 #          command: mkdir -p ~/.ssh; touch known_hosts; echo 'brooklynrail.org,64.13.204.174 ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAIEA6t/F1UXfLPJxzuCsnYafDAWEyq9740FDPjN9o/fPDwn3lIMJafR4qjHYkrksI+8LKJc/xyvzZcxLLXPmK4Bl2Ui0s1VOsG/1jRmLqql1jMU+eMVeBUIgsc1qRyg3o/sVjpwgDjE7EUNRIfCaU5yivJZRsAqkFkJ6fDx4puMzPQU=' >> ~/.ssh/known_hosts
-      - run:
-          name: Deploy Over SSH
-          command: scp -r -o StrictHostKeyChecking=no ~/laravel serveradmin%brooklynrail.org@brooklynrail.org:~/domains/circleci.brooklynrail.org/html/
-      - run:
-          name: Test SSH
-          command: |
-            ssh serveradmin%brooklynrail.org@brooklynrail.org "touch ~/domains/circleci.brooklynrail.org/html/test.txt"
+#      - run:
+#          name: Deploy Over SSH
+#          command: scp -r -o StrictHostKeyChecking=no ~/laravel serveradmin%brooklynrail.org@brooklynrail.org:~/domains/circleci.brooklynrail.org/html/
+#      - run:
+#          name: Test SSH
+#          command: |
+#            ssh serveradmin%brooklynrail.org@brooklynrail.org "touch ~/domains/circleci.brooklynrail.org/html/test.txt"
 
 workflows:
   version: 2
   build-and-deploy:
     jobs:
       - build
-      - deploy:
-          requires:
-            - build
-          filters:
-            branches:
-              only: circleci-2.0
+ #     - deploy:
+ #         requires:
+ #           - build
+ #         filters:
+ #           branches:
+ #             only: circleci-2.0
