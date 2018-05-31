@@ -37,6 +37,7 @@ jobs:
   deploy:
     docker:
       - image: circleci/php:7.1-node-browsers
+    working_directory: ~/laravel
     steps:
 #      - run:
 #          name: Add Known Hosts
